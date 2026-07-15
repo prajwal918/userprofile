@@ -3,6 +3,4 @@ services:
   app:
     build: .
     ports:
-      - "8080:80"
-    volumes:
-      - .:/app
+      - "8080:3000"

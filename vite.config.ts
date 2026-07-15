@@ -1,7 +1,7 @@
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { createServer } from "./server";
+import { createServer } from "./src/server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -9,8 +9,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     fs: {
-      allow: ["./client", "./shared"],
-      deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
+      allow: ["./src/client", "./src/shared"],
+      deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "src/server/**"],
     },
   },
   build: {
@@ -19,8 +19,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [react(), expressPlugin()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./client"),
-      "@shared": path.resolve(__dirname, "./shared"),
+      "@": path.resolve(__dirname, "./src/client"),
+      "@shared": path.resolve(__dirname, "./src/shared"),
     },
   },
 }));

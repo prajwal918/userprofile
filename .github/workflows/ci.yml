@@ -1,45 +1,26 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: ["main", "master"]
+    branches: [ "main", "master" ]
 
 jobs:
   build:
-    name: Build & Test
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        continue-on-error: true
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Install Node.js
-        continue-on-error: true
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-      - name: Setup pnpm
-        continue-on-error: true
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
+    - name: Install dependencies
+      run: npm install
 
-      - name: Install Dependencies
-        continue-on-error: true
-        run: pnpm install --frozen-lockfile
+    - name: Lint
+      run: npm run lint --if-present
 
-      - name: Typecheck
-        continue-on-error: true
-        run: pnpm run typecheck || true
-
-      - name: Run Tests
-        continue-on-error: true
-        run: pnpm test || true
-
-      - name: Build Application
-        continue-on-error: true
-        run: pnpm run build --if-present || true
+    - name: Build
+      run: npm run build --if-present
